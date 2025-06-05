@@ -45,6 +45,10 @@ const Login = () => {
         localStorage.setItem('authToken', token);
         localStorage.setItem('userData', JSON.stringify(user));
 
+        // Set authentication flags that ProtectedRoute expects
+        localStorage.setItem('isAuthenticated', 'true');
+        localStorage.setItem('userRole', 'admin');
+
         // Redirect to the page they were trying to access, or default to dashboard
         navigate(from, { replace: true });
       } else {

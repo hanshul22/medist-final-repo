@@ -25,7 +25,7 @@ const AdminProfile = () => {
     // Check if user is authenticated
     const isAuth = localStorage.getItem('isAuthenticated');
     const userRole = localStorage.getItem('userRole');
-    
+
     if (!isAuth || userRole !== 'admin') {
       navigate('/admin_login');
       return;
@@ -55,7 +55,7 @@ const AdminProfile = () => {
     try {
       setLoading(true);
       const response = await adminService.getMyProfile();
-      
+
       if (response && response.data) {
         setProfileData({
           id: response.data.id || 1,
@@ -96,7 +96,7 @@ const AdminProfile = () => {
     try {
       setUpdateLoading(true);
       const response = await adminService.updateMe(updatedData);
-      
+
       if (response && response.data) {
         setProfileData(prev => ({ ...prev, ...updatedData }));
         showNotification('success', 'Profile updated successfully!');
@@ -118,7 +118,7 @@ const AdminProfile = () => {
         currentPassword: passwordData.currentPassword,
         newPassword: passwordData.newPassword
       });
-      
+
       if (response) {
         showNotification('success', 'Password changed successfully!');
       } else {
@@ -135,6 +135,8 @@ const AdminProfile = () => {
   const handleLogout = () => {
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('userRole');
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userData');
     navigate('/admin_login');
   };
 
@@ -155,55 +157,53 @@ const AdminProfile = () => {
   return (
     <div className="flex h-screen bg-neutral-100">
       <Sidebar />
-      
+
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header onLogout={handleLogout} />
-        
+
         <main className="flex-1 overflow-y-auto p-4 md:p-6">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-2xl font-semibold text-gray-800 mb-6">Profile Settings</h1>
-            
+
             {/* Profile Header */}
             <ProfileHeader profileData={profileData} />
-            
+
             {/* Tab Navigation */}
             <div className="bg-white rounded-lg shadow mt-6">
               <div className="border-b border-gray-200">
                 <nav className="-mb-px flex space-x-8 px-6">
                   <button
                     onClick={() => setActiveTab('profile')}
-                    className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                      activeTab === 'profile'
-                        ? 'border-primary text-primary'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                    }`}
+                    className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'profile'
+                      ? 'border-primary text-primary'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      }`}
                   >
                     Profile Information
                   </button>
                   <button
                     onClick={() => setActiveTab('password')}
-                    className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                      activeTab === 'password'
-                        ? 'border-primary text-primary'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                    }`}
+                    className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'password'
+                      ? 'border-primary text-primary'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      }`}
                   >
                     Change Password
                   </button>
                 </nav>
               </div>
-              
+
               {/* Tab Content */}
               <div className="p-6">
                 {activeTab === 'profile' && (
-                  <ProfileForm 
+                  <ProfileForm
                     profileData={profileData}
                     onUpdate={handleProfileUpdate}
                     loading={updateLoading}
                   />
                 )}
                 {activeTab === 'password' && (
-                  <PasswordChangeForm 
+                  <PasswordChangeForm
                     onPasswordChange={handlePasswordChange}
                     loading={updateLoading}
                   />

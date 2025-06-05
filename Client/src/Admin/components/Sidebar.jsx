@@ -137,11 +137,10 @@ const Sidebar = () => {
                 <NavLink
                   key={item.name}
                   to={item.href}
-                  className={`group flex items-center px-2 py-3 text-sm font-medium rounded-md ${
-                    isActive
-                      ? 'bg-primary text-white'
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
+                  className={`group flex items-center px-2 py-3 text-sm font-medium rounded-md ${isActive
+                    ? 'bg-primary text-white'
+                    : 'text-gray-600 hover:bg-gray-100'
+                    }`}
                 >
                   <div className={`mr-3 flex-shrink-0 ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-gray-600'}`}>
                     {item.icon}
@@ -161,6 +160,8 @@ const Sidebar = () => {
               e.preventDefault();
               localStorage.removeItem('isAuthenticated');
               localStorage.removeItem('userRole');
+              localStorage.removeItem('authToken');
+              localStorage.removeItem('userData');
               window.location.href = '/admin_login';
             }}
           >
