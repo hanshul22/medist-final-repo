@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const instance = axios.create({
-  baseURL: `http://165.22.208.187:3001`,
+  baseURL: `https://medist-final-repo-1.onrender.com`,
     // baseURL: `${process.env.REACT_APP_API_BASE_URL}`,
   timeout: 50000,
   headers: {
